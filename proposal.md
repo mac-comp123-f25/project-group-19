@@ -1,15 +1,29 @@
-# Project Title
+# Productivity Tool
 
-Check the project requirements for details what should go into this file.  Below is an outline.
 
 ## Members
 
-- Member 1 first name and last name initial
-- Member 2 first name and last name initial
-- Member 3 first name and last name initial
+- Gabby B.
+- Helen L.
+- Russell O.
 
 ## Description
 
 
 ## Inspirations Behind
 
+
+## Plan
+What needs to be done?
+
+Who will do each thing?
+
+When do they need to be done by?
+
+Add these as Issues on GitHub
+
+Deliverables are:
+- code
+- README certain things
+- video
+- presentation slides
