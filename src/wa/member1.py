@@ -21,6 +21,7 @@ def get_task_due(task):
 def get_task_work_date(task):
     return task.work_date
 
+#category
 def get_task_cat(task):
     return task.cat
 
