@@ -8,7 +8,7 @@
 
 ## Description
 
-We are going to make an assignment/activity tracker. The user will be able to add assignments, provide due dates for them, and mark them as completed. This will function somewhat similarly (ideally) to Google Calendar task notifications.
+We are going to make an assignment/activity tracker. The user will be able to add assignments, provide due dates for them, and mark them as completed. This might function somewhat similarly to Google Calendar task notifications.
 
 
 ## Inspirations Behind
