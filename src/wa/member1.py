@@ -38,11 +38,13 @@ class BasicGui:
                 self.name.grid(row=self.current_row, column=1)
                 self.due_date.grid(row=self.current_row, column=2)
                 self.checkbox = tk.Checkbutton(self.mainWin, text="Complete?")
-                self.checkbox.grid(row=self.current_row, column=3, command=self.remove_task)
+                self.checkbox.grid(row=self.current_row, column=3)
                 self.current_row += 1
-                temp_dict = {self.name.}
+                # temp_dict = {self.name.}
 
     def remove_task(self):
+        #   TODO: implement this
+        pass
 
 
 
