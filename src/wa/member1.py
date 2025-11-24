@@ -4,7 +4,7 @@ from tkinter import simpledialog
 # Create the list for tasks to be stored in
 tasklist = []
 
-# Set up task object with the properties name and due (date)
+# Set up a task object with the properties of name and due (date)
 class Task:
     def __init__(self, name, due):
         self.name = name
@@ -28,8 +28,7 @@ class BasicGui:
         #these set up padding so it looks less hideous
         self.mainWin.columnconfigure(1, pad=50)
         self.mainWin.columnconfigure(2, pad=50)
-        #i don't think we use this but i haven't tested it
-        self.tasks = []
+
 
     #runs the window
     def run(self):
@@ -59,7 +58,6 @@ class BasicGui:
                 #Important: current_row is incremented after each task so that they don't get placed
                 #in the same row
                 self.current_row += 1
-                # temp_dict = {self.name.}
 
     def remove_task(self):
         #TODO: implement this
