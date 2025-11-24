@@ -74,7 +74,6 @@ class BasicGui:
 
         if task_object in tasklist:
             tasklist.remove(task_object)
-            print(f"Completed: {task_object.name}")
 
 
 # ----- Main program -----
