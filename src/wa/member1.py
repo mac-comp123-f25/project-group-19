@@ -1,9 +1,13 @@
 import tkinter as tk
 from tkinter import simpledialog
+from src.wa.member3 import save_tasks
+from src.wa.member3 import get_tasks
 
 # Create the list for tasks to be stored in
 tasklist = []
 
+# Need to figure out how to get this list of saved tasks to appear when we open the planner.
+saved_tasks = get_tasks()
 
 class Task:
     def __init__(self, name, due):
@@ -13,7 +17,7 @@ class Task:
 
 def make_task(name, due):
     task = Task(name, due)
-    tasklist.append(task)
+    tasklist.append((task.name,task.due)) #adds as a tuple so that it saves nicely
     return task
 
 
@@ -26,6 +30,10 @@ class BasicGui:
 
         self.add_button = tk.Button(self.mainWin, text="Add Task", command=self.add_response)
         self.add_button.grid(row=0, column=0)
+
+        #I just put the close button in the grid somewhere. It probably should not go right next to the add button. Fix later.
+        self.close_button = tk.Button(self.mainWin, text="Close", command=self.save_and_close)
+        self.close_button.grid(row=1,column=0)
 
         self.current_row = 1
 
@@ -73,6 +81,10 @@ class BasicGui:
 
         if task_object in tasklist:
             tasklist.remove(task_object)
+
+    def save_and_close(self):
+        save_tasks(tasklist)
+        self.mainWin.destroy()
 
 
 # ----- Main program -----
