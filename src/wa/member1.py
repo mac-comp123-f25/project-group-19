@@ -28,11 +28,11 @@ class BasicGui:
         self.mainWin.geometry("400x300")
         self.mainWin.title("Planner")
 
-        self.add_button = tk.Button(self.mainWin, text="Add Task", command=self.add_response)
+        self.add_button = tk.Button(self.mainWin, text="New Task", command=self.add_response)
         self.add_button.grid(row=0, column=0)
 
         #I just put the close button in the grid somewhere. It probably should not go right next to the add button. Fix later.
-        self.close_button = tk.Button(self.mainWin, text="Close", command=self.save_and_close)
+        self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
         self.close_button.grid(row=1,column=0)
 
         self.current_row = 1
