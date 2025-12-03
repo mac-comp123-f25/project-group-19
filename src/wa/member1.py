@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import simpledialog
-from src.wa.member3 import save_tasks
-from src.wa.member3 import get_tasks
+from src.wa.helen import save_tasks
+from src.wa.helen import get_tasks
 
 # Create the list for tasks to be stored in
 tasklist = []
@@ -26,7 +26,6 @@ def make_task(name, due):
 class BasicGui:
     def __init__(self):
         self.mainWin = tk.Tk()
-        self.mainWin.geometry("400x300")
         self.mainWin.title("Planner")
 
         self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
@@ -35,6 +34,11 @@ class BasicGui:
         #I just put the close button in the grid somewhere. It probably should not go right next to the add button. Fix later.
         self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
         self.close_button.grid(row=0,column=1)
+
+        #These are invisible things to get the window size right
+        self.size_widget=tk.Label(bg='white',text="")
+        self.size_widget.place(relx=400,rely=300,anchor='center')
+
 
         self.current_row = 1
 
