@@ -103,6 +103,8 @@ class BasicGui:
     def change_color(self):
         color_name = simpledialog.askstring("Add Background Color", "Enter The Hex Color Code:")
         if color_name:
+            if color_name[0] != "#":
+                color_name = "#" + color_name
             self.mainWin.config(bg=color_name)
             self.color_button.config(highlightbackground=color_name)
 
