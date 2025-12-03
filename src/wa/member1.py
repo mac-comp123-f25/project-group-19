@@ -9,6 +9,7 @@ tasklist = []
 # Need to figure out how to get this list of saved tasks to appear when we open the planner.
 saved_tasks = get_tasks()
 
+
 class Task:
     def __init__(self, name, due):
         self.name = name
@@ -28,47 +29,53 @@ class BasicGui:
         self.mainWin.geometry("400x300")
         self.mainWin.title("Planner")
 
-        self.add_button = tk.Button(self.mainWin, text="Add Task", command=self.add_response)
+        self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
         self.add_button.grid(row=0, column=0)
 
         #I just put the close button in the grid somewhere. It probably should not go right next to the add button. Fix later.
-        self.close_button = tk.Button(self.mainWin, text="Close", command=self.save_and_close)
-        self.close_button.grid(row=1,column=0)
+        self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
+        self.close_button.grid(row=0,column=1)
 
         self.current_row = 1
 
         self.mainWin.columnconfigure(1, pad=50)
         self.mainWin.columnconfigure(2, pad=50)
 
+        for task in saved_tasks:
+            self.add_response(task[0], task[1])
+
     def run(self):
         self.mainWin.mainloop()
 
-    def add_response(self):
+    def query_user(self):
         task_name = simpledialog.askstring("Add Task", "Enter Task Name:")
         if task_name:
             due_date = simpledialog.askstring("Add Task", "Enter Due Date:")
             if due_date:
-                # Create task data
-                new_task_object = make_task(task_name, due_date)
+                self.add_response(task_name, due_date)
 
-                # Create widgets
-                name_label = tk.Label(self.mainWin, text=task_name)
-                date_label = tk.Label(self.mainWin, text=due_date)
-                checkbox = tk.Checkbutton(self.mainWin, text="Complete?")
+    def add_response(self, task_name, due_date):
+        # Create task data
+        new_task_object = make_task(task_name, due_date)
 
-                # Group widgets to delete
-                widgets_to_delete = [name_label, date_label, checkbox]
+        # Create widgets
+        name_label = tk.Label(self.mainWin, text=task_name)
+        date_label = tk.Label(self.mainWin, text=due_date)
+        checkbox = tk.Checkbutton(self.mainWin, text="Complete?")
 
-                # Configure the checkbox to trigger deletion
-                # use a lambda to pass the specific items to the remove function
-                checkbox.config(command=lambda: self.remove_task(new_task_object, widgets_to_delete))
+        # Group widgets to delete
+        widgets_to_delete = [name_label, date_label, checkbox]
 
-                # lace on Grid
-                name_label.grid(row=self.current_row, column=1)
-                date_label.grid(row=self.current_row, column=2)
-                checkbox.grid(row=self.current_row, column=3)
+        # Configure the checkbox to trigger deletion
+        # use a lambda to pass the specific items to the remove function
+        checkbox.config(command=lambda: self.remove_task(new_task_object, widgets_to_delete))
 
-                self.current_row += 1
+        # Place on Grid
+        name_label.grid(row=self.current_row, column=1)
+        date_label.grid(row=self.current_row, column=2)
+        checkbox.grid(row=self.current_row, column=3)
+
+        self.current_row += 1
 
     def remove_task(self, task_object, widget_list):
         # Add a small delay so the user sees the checkmark before it vanishes
@@ -85,7 +92,6 @@ class BasicGui:
     def save_and_close(self):
         save_tasks(tasklist)
         self.mainWin.destroy()
-
 
 # ----- Main program -----
 myGui = BasicGui()
