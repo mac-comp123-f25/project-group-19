@@ -45,6 +45,13 @@ class BasicGui:
         self.mainWin.columnconfigure(1, pad=50)
         self.mainWin.columnconfigure(2, pad=50)
 
+        self.color_button = tk.Button(
+            self.mainWin,
+            text="Change my background color!",
+            command=self.change_color
+        )
+        self.color_button.grid(row=0, column=2)
+
         for task in saved_tasks:
             self.add_response(task[0], task[1])
 
@@ -96,6 +103,12 @@ class BasicGui:
     def save_and_close(self):
         save_tasks(tasklist)
         self.mainWin.destroy()
+
+    def change_color(self):
+        color_name = simpledialog.askstring("Add Background Color", "Enter The Hex Color Code:")
+        if color_name:
+            self.mainWin.config(bg=color_name)
+            self.color_button.config(highlightbackground=color_name)
 
 # ----- Main program -----
 myGui = BasicGui()
