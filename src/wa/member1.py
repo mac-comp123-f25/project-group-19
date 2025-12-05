@@ -26,6 +26,10 @@ def make_task(name, due):
 class BasicGui:
     def __init__(self):
         self.mainWin = tk.Tk()
+        self.mainWin.attributes('-topmost', True)  # 1. Force it to be the top layer
+        self.mainWin.update()  # 2. Force Tkinter to draw it there immediately
+        self.mainWin.after(2000, lambda: self.mainWin.attributes('-topmost', False))
+        self.mainWin.lift()
         self.mainWin.title("Planner")
 
         self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
@@ -93,12 +97,16 @@ class BasicGui:
         self.mainWin.after(500, lambda: self._perform_deletion(task_object, widget_list))
 
     def _perform_deletion(self, task_object, widget_list):
-        # actually destroy the widgets and data
+        # Remove GUI element
         for widget in widget_list:
             widget.destroy()
 
-        if task_object in tasklist:
-            tasklist.remove(task_object)
+        # Save the object's variables into a tuple
+        task_tuple_to_remove = (task_object.name, task_object.due)
+
+        # Remove that tuple
+        if task_tuple_to_remove in tasklist:
+            tasklist.remove(task_tuple_to_remove)
 
     def save_and_close(self):
         save_tasks(tasklist)
