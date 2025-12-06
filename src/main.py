@@ -6,17 +6,18 @@ from src.wa.helen import get_tasks
 # Create the list for tasks to be stored in
 tasklist = []
 
-# Need to figure out how to get this list of saved tasks to appear when we open the planner.
+# Get current tasks to save
 saved_tasks = get_tasks()
-
 
 class Task:
     def __init__(self, name, due):
+        """Initialize the task with a name and due date"""
         self.name = name
         self.due = due
 
 
 def make_task(name, due):
+    """Create a task object and add it to the tasklist"""
     task = Task(name, due)
     tasklist.append((task.name,task.due)) #adds as a tuple so that it saves nicely
     return task
@@ -25,24 +26,20 @@ def make_task(name, due):
 # ----- GUI class and methods -----
 class BasicGui:
     def __init__(self):
+        """Initialize the GUI window and add buttons"""
         self.mainWin = tk.Tk()
-        self.mainWin.attributes('-topmost', True)  # 1. Force it to be the top layer
-        self.mainWin.update()  # 2. Force Tkinter to draw it there immediately
+        self.mainWin.geometry("500x300")
+        self.mainWin.attributes('-topmost', True)  # Force it to be the top layer
+        self.mainWin.update()  # Force Tkinter to draw it there immediately
         self.mainWin.after(2000, lambda: self.mainWin.attributes('-topmost', False))
         self.mainWin.lift()
-        self.mainWin.title("Planner")
+        self.mainWin.title("Task List")
 
         self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
-        self.add_button.grid(row=0, column=0)
+        self.add_button.grid(row=0, column=0, sticky = "W")
 
-        #I just put the close button in the grid somewhere. It probably should not go right next to the add button. Fix later.
         self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
-        self.close_button.grid(row=0,column=1)
-
-        #The .place isn't working.
-        self.size_widget=tk.Label(bg='white',text="")
-        self.size_widget.place(relx=400,rely=300,anchor='center')
-
+        self.close_button.grid(row=1,column=0, sticky = "W")
         self.current_row = 1
 
         self.mainWin.columnconfigure(1, pad=50)
@@ -50,18 +47,20 @@ class BasicGui:
 
         self.color_button = tk.Button(
             self.mainWin,
-            text="Change my background color!",
+            text="Change background color",
             command=self.change_color
         )
-        self.color_button.grid(row=0, column=2)
+        self.color_button.grid(row=2, column=0, sticky = "W")
 
         for task in saved_tasks:
             self.add_response(task[0], task[1])
 
     def run(self):
+        """Start the GUI"""
         self.mainWin.mainloop()
 
     def query_user(self):
+        """Prompt user for task name and due date"""
         task_name = simpledialog.askstring("Add Task", "Enter Task Name:")
         if task_name:
             due_date = simpledialog.askstring("Add Task", "Enter Due Date:")
@@ -69,6 +68,7 @@ class BasicGui:
                 self.add_response(task_name, due_date)
 
     def add_response(self, task_name, due_date):
+        """Add a task to the GUI and the tasklist"""
         # Create task data
         new_task_object = make_task(task_name, due_date)
 
@@ -91,10 +91,11 @@ class BasicGui:
 
         self.current_row += 1
 
+
     def remove_task(self, task_object, widget_list):
+        """Remove a task from the GUI and the tasklist"""
         # Add a small delay so the user sees the checkmark before it vanishes
         self.mainWin.after(500, lambda: self._perform_deletion(task_object, widget_list))
-
 
     def _perform_deletion(self, task_object, widget_list):
         # Remove GUI element
