@@ -52,6 +52,9 @@ class BasicGui:
         )
         self.color_button.grid(row=2, column=0, sticky = "W")
 
+        self.gui_rows = []
+
+        # Adds saved tasks to the GUI
         for task in saved_tasks:
             self.add_response(task[0], task[1])
 
@@ -76,6 +79,7 @@ class BasicGui:
         name_label = tk.Label(self.mainWin, text=task_name)
         date_label = tk.Label(self.mainWin, text=due_date)
         checkbox = tk.Checkbutton(self.mainWin, text="Complete?")
+        self.gui_rows.append([name_label, date_label, checkbox])
 
         # Group widgets to delete
         widgets_to_delete = [name_label, date_label, checkbox]
@@ -91,16 +95,27 @@ class BasicGui:
 
         self.current_row += 1
 
-
     def remove_task(self, task_object, widget_list):
         """Remove a task from the GUI and the tasklist"""
         # Add a small delay so the user sees the checkmark before it vanishes
-        self.mainWin.after(500, lambda: self._perform_deletion(task_object, widget_list))
+        self.mainWin.after(500, lambda: self.perform_deletion(task_object, widget_list))
 
-    def _perform_deletion(self, task_object, widget_list):
+    def perform_deletion(self, task_object, widget_list):
+        """Remove the GUI elements and the task from the tasklist"""
         # Remove GUI element
+        del_row_index = self.gui_rows.index(widget_list)
+        del self.gui_rows[del_row_index]
+        for row in self.gui_rows[del_row_index:]:
+            row[0].grid(column = 1, row = row[0].grid_info()["row"] - 1)
+            row[1].grid(column = 2, row = row[1].grid_info()["row"] - 1)
+            row[2].grid(column = 3, row = row[2].grid_info()["row"] - 1)
+        self.current_row -= 1
         for widget in widget_list:
             widget.destroy()
+
+        task_tuple = (task_object.name, task_object.due)
+        if task_tuple in tasklist:
+            tasklist.remove(task_tuple)
 
         # Save the object's variables into a tuple
         task_tuple_to_remove = (task_object.name, task_object.due)
@@ -110,16 +125,23 @@ class BasicGui:
             tasklist.remove(task_tuple_to_remove)
 
     def save_and_close(self):
+        """Save the tasklist and close the window"""
         save_tasks(tasklist)
         self.mainWin.destroy()
 
     def change_color(self):
+        """Change the background color of the window"""
         color_name = simpledialog.askstring("Add Background Color", "Enter The Hex Color Code:")
         if color_name:
+            # Handles missing "#" at the beginning of the color code
             if color_name[0] != "#":
                 color_name = "#" + color_name
+            # Changes the background color of the window
             self.mainWin.config(bg=color_name)
+            # Changes the color of the buttons as well
             self.color_button.config(highlightbackground=color_name)
+            self.close_button.config(highlightbackground=color_name)
+            self.add_button.config(highlightbackground=color_name)
 
 # ----- Main program -----
 myGui = BasicGui()

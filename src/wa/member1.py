@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog
-from src.wa.helen import save_tasks
-from src.wa.helen import get_tasks
+from src.wa.helen import save_tasks, get_tasks
 
 # Create the list for tasks to be stored in
 tasklist = []
