@@ -39,10 +39,9 @@ class BasicGui:
         self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
         self.close_button.grid(row=0,column=1)
 
-        #These are invisible things to get the window size right
+        #The .place isn't working.
         self.size_widget=tk.Label(bg='white',text="")
         self.size_widget.place(relx=400,rely=300,anchor='center')
-
 
         self.current_row = 1
 
@@ -95,6 +94,7 @@ class BasicGui:
     def remove_task(self, task_object, widget_list):
         # Add a small delay so the user sees the checkmark before it vanishes
         self.mainWin.after(500, lambda: self._perform_deletion(task_object, widget_list))
+
 
     def _perform_deletion(self, task_object, widget_list):
         # Remove GUI element
