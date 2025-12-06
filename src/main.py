@@ -36,11 +36,11 @@ class BasicGui:
         self.mainWin.title("Task List")
 
         self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
-        self.add_button.grid(row=0, column=0, sticky = "W")
+        self.add_button.grid(row=0, column=1,pady=10)
 
         self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
-        self.close_button.grid(row=1,column=0, sticky = "W")
-        self.current_row = 1
+        self.close_button.grid(row=0,column=2,pady=10)
+        self.current_row = 2
 
         self.mainWin.columnconfigure(1, pad=50)
         self.mainWin.columnconfigure(2, pad=50)
@@ -50,7 +50,16 @@ class BasicGui:
             text="Change background color",
             command=self.change_color
         )
-        self.color_button.grid(row=2, column=0, sticky = "W")
+        self.color_button.grid(row=0, column=3,pady=10)
+
+        self.title1 = tk.Label(self.mainWin,text="Task Name",font=("Helvetica",14,"bold"))
+        self.title1.grid(row=1,column=1,pady=10)
+
+        self.title2 = tk.Label(self.mainWin,text="Task Due Date",font=("Helvetica",14,"bold"))
+        self.title2.grid(row=1,column=2,pady=10)
+
+        self.title3 = tk.Label(self.mainWin,text="Task Complete?",font=("Helvetica",14,"bold"))
+        self.title3.grid(row=1,column=3,pady=10)
 
         for task in saved_tasks:
             self.add_response(task[0], task[1])
