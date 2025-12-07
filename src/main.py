@@ -31,7 +31,7 @@ class BasicGui:
     def __init__(self):
         """Initialize the GUI window and add buttons"""
         self.mainWin = tk.Tk()
-        self.mainWin.geometry("600x300")
+        self.mainWin.minsize(600,300)
         self.mainWin.attributes('-topmost', True)  # Force it to be the top layer
         self.mainWin.update()  # Force Tkinter to draw it there immediately
         self.mainWin.after(2000, lambda: self.mainWin.attributes('-topmost', False))
