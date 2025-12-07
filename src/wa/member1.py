@@ -40,24 +40,19 @@ class BasicGui:
         self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
         self.add_button.grid(row=0, column=0)
 
-        #I just put the close button in the grid somewhere. It probably should not go right next to the add button. Fix later.
+        # Adds and Places Save and Close Button
         self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
         self.close_button.grid(row=0,column=1)
 
-        #The .place isn't working.
-        self.size_widget=tk.Label(bg='white',text="")
-        self.size_widget.place(relx=400,rely=300,anchor='center')
-
+        # Sets row to start tasks on
         self.current_row = 1
 
+        # Sets column widths
         self.mainWin.columnconfigure(1, pad=50)
         self.mainWin.columnconfigure(2, pad=50)
 
-        self.color_button = tk.Button(
-            self.mainWin,
-            text="Change my background color!",
-            command=self.change_color
-        )
+        #
+        self.color_button = tk.Button(self.mainWin, text="Change background color", command=self.change_color)
         self.color_button.grid(row=0, column=2)
 
         for task in saved_tasks:
@@ -99,20 +94,17 @@ class BasicGui:
 
     def remove_task(self, task_object, widget_list):
         # Add a small delay so the user sees the checkmark before it vanishes
-        self.mainWin.after(500, lambda: self._perform_deletion(task_object, widget_list))
+        self.mainWin.after(500, lambda: self.perform_deletion(task_object, widget_list))
 
 
-    def _perform_deletion(self, task_object, widget_list):
+    def perform_deletion(self, task_object, widget_list):
         # Remove GUI element
         for widget in widget_list:
             widget.destroy()
 
-        # Save the object's variables into a tuple
-        task_tuple_to_remove = (task_object.name, task_object.due)
-
-        # Remove that tuple
-        if task_tuple_to_remove in tasklist:
-            tasklist.remove(task_tuple_to_remove)
+        # Remove task from global list
+        if task_object in tasklist:
+            tasklist.remove(task_object)
 
     def save_and_close(self):
         save_tasks(tasklist)
