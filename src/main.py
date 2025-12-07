@@ -6,6 +6,9 @@ from src.wa.helen import get_tasks
 # Create the list for tasks to be stored in
 tasklist = []
 
+# Set default label color
+label_color = "#000000"
+
 # Get current tasks to save
 saved_tasks = get_tasks()
 
@@ -28,38 +31,47 @@ class BasicGui:
     def __init__(self):
         """Initialize the GUI window and add buttons"""
         self.mainWin = tk.Tk()
-        self.mainWin.geometry("500x300")
+        self.mainWin.geometry("600x300")
         self.mainWin.attributes('-topmost', True)  # Force it to be the top layer
         self.mainWin.update()  # Force Tkinter to draw it there immediately
         self.mainWin.after(2000, lambda: self.mainWin.attributes('-topmost', False))
         self.mainWin.lift()
         self.mainWin.title("Task List")
 
-        self.add_button = tk.Button(self.mainWin, text="New Task", command=self.query_user)
-        self.add_button.grid(row=0, column=1,pady=10)
+        # --- CREATE FRAMES ---
+        # The Left Frame will hold buttons
+        self.left_frame = tk.Frame(self.mainWin)
+        self.left_frame.grid(row=0, column=0, sticky="n", padx=10, pady=10)
 
-        self.close_button = tk.Button(self.mainWin, text="Save and Close", command=self.save_and_close)
-        self.close_button.grid(row=0,column=2,pady=10)
-        self.current_row = 2
+        # The Right Frame will hold the task list
+        self.right_frame = tk.Frame(self.mainWin)
+        self.right_frame.grid(row=0, column=1, sticky="n", padx=10, pady=10)
+
+        self.add_button = tk.Button(self.left_frame, text="New Task", command=self.query_user)
+        self.add_button.grid(row=0, column=0)
+
+        self.close_button = tk.Button(self.left_frame, text="Save and Close", command=self.save_and_close)
+        self.close_button.grid(row=1,column=0)
+        self.current_row = 1
 
         self.mainWin.columnconfigure(1, pad=50)
         self.mainWin.columnconfigure(2, pad=50)
 
         self.color_button = tk.Button(
-            self.mainWin,
+            self.left_frame,
             text="Change background color",
             command=self.change_color
         )
-        self.color_button.grid(row=0, column=3,pady=10)
+        self.color_button.grid(row=2, column=0)
 
-        self.title1 = tk.Label(self.mainWin,text="Task Name",font=("Helvetica",14,"bold"))
-        self.title1.grid(row=1,column=1,pady=10)
+        self.title1 = tk.Label(self.right_frame,text="Task",font=("Helvetica",14,"bold"))
+        self.title1.grid(row=0,column=1, padx = 20)
 
-        self.title2 = tk.Label(self.mainWin,text="Task Due Date",font=("Helvetica",14,"bold"))
-        self.title2.grid(row=1,column=2,pady=10)
+        self.title2 = tk.Label(self.right_frame,text="Due Date",font=("Helvetica",14,"bold"))
+        self.title2.grid(row=0,column=2, padx = 20)
 
-        self.title3 = tk.Label(self.mainWin,text="Task Complete?",font=("Helvetica",14,"bold"))
-        self.title3.grid(row=1,column=3,pady=10)
+        self.title3 = tk.Label(self.right_frame,text="Complete?",font=("Helvetica",14,"bold"))
+        self.title3.grid(row=0,column=3, padx = 20)
 
         self.gui_rows = []
 
@@ -85,9 +97,9 @@ class BasicGui:
         new_task_object = make_task(task_name, due_date)
 
         # Create widgets
-        name_label = tk.Label(self.mainWin, text=task_name)
-        date_label = tk.Label(self.mainWin, text=due_date)
-        checkbox = tk.Checkbutton(self.mainWin, text="Complete?")
+        name_label = tk.Label(self.right_frame, text=task_name)
+        date_label = tk.Label(self.right_frame, text=due_date)
+        checkbox = tk.Checkbutton(self.right_frame, text="Complete?")
         self.gui_rows.append([name_label, date_label, checkbox])
 
         # Group widgets to delete
@@ -151,6 +163,33 @@ class BasicGui:
             self.color_button.config(highlightbackground=color_name)
             self.close_button.config(highlightbackground=color_name)
             self.add_button.config(highlightbackground=color_name)
+            self.left_frame.config(bg=color_name)
+            self.right_frame.config(bg=color_name)
+            red_decimal = int(color_name[1:3], 16)
+            green_decimal = int(color_name[3:5], 16)
+            blue_decimal = int(color_name[5:], 16)
+            if(red_decimal + green_decimal + blue_decimal) < 384:
+                for row in self.gui_rows:
+                    for widget in row:
+                        widget.config(bg=color_name)
+                        widget.config(fg="#ffffff")
+                self.title1.config(fg="#ffffff")
+                self.title2.config(fg="#ffffff")
+                self.title3.config(fg="#ffffff")
+
+            else:
+                for row in self.gui_rows:
+                    for widget in row:
+                        widget.config(bg=color_name)
+                        widget.config(fg="#000000")
+                self.title1.config(fg="#000000")
+                self.title2.config(fg="#000000")
+                self.title3.config(fg="#000000")
+
+            self.title1.config(bg=color_name)
+            self.title2.config(bg=color_name)
+            self.title3.config(bg=color_name)
+
 
 # ----- Main program -----
 myGui = BasicGui()

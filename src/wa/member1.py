@@ -2,29 +2,35 @@ import tkinter as tk
 from tkinter import simpledialog
 from src.wa.helen import save_tasks, get_tasks
 
+
 # Create the list for tasks to be stored in
 tasklist = []
+
+# Set default label color
+label_color = "#000000"
 
 # Need to figure out how to get this list of saved tasks to appear when we open the planner.
 saved_tasks = get_tasks()
 
-
-class Task:
-    def __init__(self, name, due):
-        self.name = name
-        self.due = due
-
-
 def make_task(name, due):
-    task = Task(name, due)
-    tasklist.append((task.name,task.due)) #adds as a tuple so that it saves nicely
-    return task
+    tasklist.append((name,due)) #adds as a tuple so that it saves nicely
 
+
+def add_data_to_list(name, due):
+    # 1. Create a tuple (immutable list) of the data
+    task_tuple = (name, due)
+
+    # 2. Add it to the global list that saves to the file
+    tasklist.append(task_tuple)
+
+    # 3. Return it so the GUI can use it
+    return task_tuple
 
 # ----- GUI class and methods -----
 class BasicGui:
     def __init__(self):
         self.mainWin = tk.Tk()
+        self.mainWin.geometry("500x300")
         self.mainWin.attributes('-topmost', True)  # 1. Force it to be the top layer
         self.mainWin.update()  # 2. Force Tkinter to draw it there immediately
         self.mainWin.after(2000, lambda: self.mainWin.attributes('-topmost', False))
@@ -69,7 +75,8 @@ class BasicGui:
 
     def add_response(self, task_name, due_date):
         # Create task data
-        new_task_object = make_task(task_name, due_date)
+
+        current_task_tuple = add_data_to_list(task_name, due_date)
 
         # Create widgets
         name_label = tk.Label(self.mainWin, text=task_name)
@@ -81,7 +88,7 @@ class BasicGui:
 
         # Configure the checkbox to trigger deletion
         # use a lambda to pass the specific items to the remove function
-        checkbox.config(command=lambda: self.remove_task(new_task_object, widgets_to_delete))
+        checkbox.config(command=lambda: self.remove_task(current_task_tuple, widgets_to_delete))
 
         # Place on Grid
         name_label.grid(row=self.current_row, column=1)
