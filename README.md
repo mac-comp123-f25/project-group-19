@@ -11,3 +11,5 @@ To run the code, open the file and run it from the python file titled main.py.
 An example of what the window should look like after a task is added is shown below.
 
 ![Window Example.png](assets/Window%20Example.png)
+
+https://drive.google.com/file/d/1Eo6Aa7m4GgHSHG8XYT91gL3ZoVFQxSpz/view
