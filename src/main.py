@@ -3,6 +3,8 @@ from tkinter import simpledialog
 from src.wa.helen import save_tasks
 from src.wa.helen import get_tasks
 
+START_COLOR = "#ececec"
+
 # Create the list for tasks to be stored in
 tasklist = []
 
@@ -26,6 +28,7 @@ class BasicGui:
         """Initialize the GUI window and add buttons"""
         self.mainWin = tk.Tk()
         self.mainWin.geometry("600x300")
+        self.mainWin.config(bg=START_COLOR)
         self.mainWin.attributes('-topmost', True)
         self.mainWin.update()
         self.mainWin.after(2000, lambda: self.mainWin.attributes('-topmost', False))
@@ -104,6 +107,26 @@ class BasicGui:
         name_label.grid(row=self.current_row, column=1)
         date_label.grid(row=self.current_row, column=2)
         checkbox.grid(row=self.current_row, column=3)
+        name_label.config(bg=self.mainWin.cget("bg"))
+        date_label.config(bg=self.mainWin.cget("bg"))
+        checkbox.config(bg=self.mainWin.cget("bg"))
+
+        color_name = self.mainWin.cget("bg")
+        print(color_name)
+        red_decimal = int(color_name[1:3], 16)
+        green_decimal = int(color_name[3:5], 16)
+        blue_decimal = int(color_name[5:], 16)
+
+        if (red_decimal + green_decimal + blue_decimal) < 384:
+            name_label.config(fg="#ffffff")
+            date_label.config(fg="#ffffff")
+            checkbox.config(fg="#ffffff")
+
+        else:
+
+            name_label.config(fg="#000000")
+            date_label.config(fg="#000000")
+            checkbox.config(fg="#000000")
 
         self.current_row += 1
 
