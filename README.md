@@ -12,4 +12,5 @@ An example of what the window should look like after a task is added is shown be
 
 ![Window Example.png](assets/Window%20Example.png)
 
+The link below is a video demonstration of the tool and how it functions.
 https://drive.google.com/file/d/1Eo6Aa7m4GgHSHG8XYT91gL3ZoVFQxSpz/view
