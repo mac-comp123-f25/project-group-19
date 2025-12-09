@@ -8,9 +8,6 @@ START_COLOR = "#ececec"
 # Create the list for tasks to be stored in
 tasklist = []
 
-# Set default label color
-label_color = "#000000"
-
 # Get current tasks to save
 saved_tasks = get_tasks()
 
@@ -112,7 +109,6 @@ class BasicGui:
         checkbox.config(bg=self.mainWin.cget("bg"))
 
         color_name = self.mainWin.cget("bg")
-        print(color_name)
         red_decimal = int(color_name[1:3], 16)
         green_decimal = int(color_name[3:5], 16)
         blue_decimal = int(color_name[5:], 16)
